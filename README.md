@@ -1,0 +1,37 @@
+# Short-Story Collection Mapper
+
+Short-Story Collection Mapper turns a supplied CSV inventory into a reviewable map of stories shared across collections and stories exclusive to one collection. It prefers explicit identifiers, otherwise groups conservatively by normalized author and title, and surfaces same-title collisions instead of silently merging them.
+
+## Three-minute use
+
+Create `stories.csv`:
+
+```csv
+collection,title,author,identifier
+Collected Tales,The Door,A. Writer,
+Best of the Year,The Door,A. Writer,
+Collected Tales,Only Here,A. Writer,
+```
+
+Then run:
+
+```sh
+python -m pip install "short-story-collection-mapper @ https://github.com/loganpendragonmultiverse/short-story-collection-mapper/releases/download/v1.0.0/short_story_collection_mapper-1.0.0-py3-none-any.whl"
+story-collection-map stories.csv --markdown map.md --json map.json
+```
+
+## Privacy and limitations
+
+The tool is local and never queries ISBN, ISFDB, publisher, or author databases. It cannot prove that retitled, translated, revised, or abridged stories are equivalent. Possible collisions require human review. Reports reproduce supplied bibliographic data, so review them before sharing.
+
+## Development
+
+```sh
+python -m pip install -e ".[dev]"
+ruff format --check . && ruff check .
+mypy src tests
+pytest
+python -m build
+```
+
+Version 1.0.0 is feature complete for CSV inventories. Contributions follow [CONTRIBUTING.md](CONTRIBUTING.md), security reports follow [SECURITY.md](SECURITY.md), and the project uses the MIT License.
