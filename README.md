@@ -16,7 +16,7 @@ Collected Tales,Only Here,A. Writer,
 Then run:
 
 ```sh
-python -m pip install "short-story-collection-mapper @ https://github.com/loganpendragonmultiverse/short-story-collection-mapper/releases/download/v1.0.0/short_story_collection_mapper-1.0.0-py3-none-any.whl"
+python -m pip install "short-story-collection-mapper @ https://github.com/loganpendragonmultiverse/short-story-collection-mapper/releases/download/v1.1.1/short_story_collection_mapper-1.1.1-py3-none-any.whl"
 story-collection-map stories.csv --markdown map.md --json map.json
 ```
 
@@ -41,7 +41,7 @@ Version 1.0.0 is feature complete for CSV inventories. Contributions follow [CON
 This project is part of the [Logan Pendragon Forge open-source collection](https://www.loganpendragonforge.com/open-source/). Browse the catalog for other released tools, source repositories, live demos, and downloads.
 
 
-## 1.1.0 candidate
+## Version 1.1.0
 
 Compare two supplied collection labels with:
 

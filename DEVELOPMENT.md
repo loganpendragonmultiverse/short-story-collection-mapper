@@ -3,7 +3,7 @@
 Version 1.0.0 implements the complete initial scope: supplied CSV inventories, conservative grouping, collection membership maps, and collision review. External metadata lookup and automatic equivalence claims are excluded.
 
 
-## 1.1.0 candidate
+## Version 1.1.0
 
 Compare two supplied collection labels with:
 
