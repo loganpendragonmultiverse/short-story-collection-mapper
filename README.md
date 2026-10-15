@@ -39,3 +39,14 @@ Version 1.0.0 is feature complete for CSV inventories. Contributions follow [CON
 ## More open-source projects
 
 This project is part of the [Logan Pendragon Forge open-source collection](https://www.loganpendragonforge.com/open-source/). Browse the catalog for other released tools, source repositories, live demos, and downloads.
+
+
+## 1.1.0 candidate
+
+Compare two supplied collection labels with:
+
+```bash
+story-collection-map inventory.csv --compare "Collection A" "Collection B" --json comparison.json
+```
+
+The focused report contains `shared`, `only_left`, `only_right`, and possible title collisions. It uses exactly the global map's existing identifier-first grouping, including its conservative title/author fallback. Repeated rows do not create additional stories. Labels must match inventory collection names exactly, and selecting an unknown or identical pair fails clearly. Other collections do not influence the focused result. Omitting `--compare` retains the full map.

@@ -7,7 +7,13 @@ import csv
 import json
 from pathlib import Path
 
-from short_story_collection_mapper.core import StoryMap, build_map, load_csv
+from short_story_collection_mapper.core import (
+    CollectionComparison,
+    StoryMap,
+    build_map,
+    compare_collections,
+    load_csv,
+)
 
 
 def markdown(result: StoryMap) -> str:
@@ -48,6 +54,7 @@ def parser() -> argparse.ArgumentParser:
         description="Map stories across supplied collection inventories."
     )
     result.add_argument("input", type=Path)
+    result.add_argument("--compare", nargs=2, metavar=("LEFT", "RIGHT"))
     result.add_argument("--json", type=Path, dest="json_output")
     result.add_argument("--markdown", type=Path, dest="markdown_output")
     return result
@@ -57,13 +64,40 @@ def main(argv: list[str] | None = None) -> int:
     """Run the command."""
     args = parser().parse_args(argv)
     try:
-        result = build_map(load_csv(args.input))
+        rows = load_csv(args.input)
+        result: StoryMap | CollectionComparison = (
+            compare_collections(rows, *args.compare) if args.compare else build_map(rows)
+        )
     except (OSError, ValueError, csv.Error) as error:
         parser().error(str(error))
-    rendered = markdown(result)
+    rendered = (
+        comparison_markdown(result)
+        if isinstance(result, CollectionComparison)
+        else markdown(result)
+    )
     if args.json_output:
         args.json_output.write_text(json.dumps(result.to_dict(), indent=2) + "\n", encoding="utf-8")
     if args.markdown_output:
         args.markdown_output.write_text(rendered, encoding="utf-8")
     print(rendered, end="")
     return 1 if result.possible_collisions else 0
+
+
+def comparison_markdown(result: CollectionComparison) -> str:
+    lines = [f"# {result.left} / {result.right}", ""]
+    for label, stories in (
+        ("Shared", result.shared),
+        ("Only left", result.only_left),
+        ("Only right", result.only_right),
+    ):
+        lines.extend([f"## {label}", ""])
+        lines.extend(
+            f"- **{story.title}** — {story.author} ({story.identifier})" for story in stories
+        )
+        lines.append("")
+    lines.extend(["## Possible collisions", ""])
+    lines.extend(
+        f"- {item.normalized_title}: {len(item.labels)} distinct groups"
+        for item in result.possible_collisions
+    )
+    return "\n".join(lines) + "\n"

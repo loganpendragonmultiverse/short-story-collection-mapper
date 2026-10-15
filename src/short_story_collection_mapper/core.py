@@ -119,3 +119,36 @@ def build_map(rows: list[StoryRow]) -> StoryMap:
         exclusive=tuple(story for story in stories if len(story.collections) == 1),
         possible_collisions=collisions,
     )
+
+
+@dataclass(frozen=True)
+class CollectionComparison:
+    """Focused comparison using the same identities as the full map."""
+
+    left: str
+    right: str
+    shared: tuple[Story, ...]
+    only_left: tuple[Story, ...]
+    only_right: tuple[Story, ...]
+    possible_collisions: tuple[Collision, ...]
+
+    def to_dict(self) -> dict[str, object]:
+        return asdict(self)
+
+
+def compare_collections(rows: list[StoryRow], left: str, right: str) -> CollectionComparison:
+    """Compare two exact supplied collection labels without guessing equivalence."""
+    collections = {row.collection for row in rows}
+    if left == right:
+        raise ValueError("choose two different collections")
+    if left not in collections or right not in collections:
+        raise ValueError("unknown collection; use an exact inventory collection label")
+    focused = build_map([row for row in rows if row.collection in {left, right}])
+    return CollectionComparison(
+        left,
+        right,
+        focused.shared,
+        tuple(story for story in focused.exclusive if left in story.collections),
+        tuple(story for story in focused.exclusive if right in story.collections),
+        focused.possible_collisions,
+    )
