@@ -3,4 +3,4 @@
 from short_story_collection_mapper.core import StoryMap, build_map, load_csv
 
 __all__ = ["StoryMap", "build_map", "load_csv"]
-__version__ = "1.1.1"
+__version__ = "1.1.2"

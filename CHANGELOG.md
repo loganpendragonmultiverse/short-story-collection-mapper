@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.2 - 2026-10-19
+
+- Keep supplied text inside Markdown report cells, headings and items; preserve JSON values.
+
+- Protect source files and existing reports; require distinct new destinations and report I/O failures clearly.
+- Verify BOM/quoted CSV input, conservative story identities and focused collection comparisons through installed distributions.
+
 ## 1.1.1 - 2026-10-16
 
 - Correct release wording and the original publication date; update installation references. Feature behavior is unchanged.
