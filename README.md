@@ -1,5 +1,11 @@
 # Short-Story Collection Mapper
 
+> ⭐ **Gold Star Project**
+> I consider this project complete. Fixes, maintenance and good new ideas are still welcome.
+> [About Gold Stars](https://www.loganpendragonforge.com/open-source/?gold=1)
+>
+> Map supplied story inventories and compare shared or exclusive stories across collections.
+
 Short-Story Collection Mapper turns a supplied CSV inventory into a reviewable map of stories shared across collections and stories exclusive to one collection. It prefers explicit identifiers, otherwise groups conservatively by normalized author and title, and surfaces same-title collisions instead of silently merging them.
 
 ## Three-minute use
@@ -53,7 +59,7 @@ story-collection-map inventory.csv --compare "Collection A" "Collection B" --jso
 
 The focused report contains `shared`, `only_left`, `only_right`, and possible title collisions. It uses exactly the global map's existing identifier-first grouping, including its conservative title/author fallback. Repeated rows do not create additional stories. Labels must match inventory collection names exactly, and selecting an unknown or identical pair fails clearly. Other collections do not influence the focused result. Omitting `--compare` retains the full map.
 
-## Changes prepared for 1.1.2 — 2026-10-19
+## Version 1.1.2 — 2026-10-19
 
 Report destinations must be new, distinct files, separate from every input. Existing files and symlink destinations are refused. Ordinary read, report-write and stdout failures return exit code 2. Inputs and existing reports are preserved. A later write failure can leave a partial new report or an already completed first report; inspect these paths and choose new names when retrying. Reports are not a multi-file or power-loss transaction.
 
